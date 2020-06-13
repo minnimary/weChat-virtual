@@ -1,0 +1,100 @@
+<div class="pay-mask">
+	<div class="pay-panel">
+		<span class="pay-img"></span>
+		<span class="pay-text">微信支付</span>
+		<span class="pay-loading">
+			<span class="pay-dot pay-dot-current"></span>
+			<span class="pay-dot"></span>
+			<span class="pay-dot"></span>
+		</span>
+	</div>
+</div>
+
+
+.pay-mask {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.pay-panel {
+    width: 160px;
+    height: 140px;
+    background-color: rgba(0,0,0,0.6);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.pay-img {
+    width: 30px;
+    height: 28px;
+    background-image: url(../img/icon-pay.png);
+    background-size: 100% 100%;
+}
+
+.pay-text {
+    font-size: 14px;
+    color: #fefefe;
+    margin: 6px 0px 10px;
+    letter-spacing: 2px;
+}
+
+.pay-loading {
+    display: flex;
+}
+.pay-dot{
+    width:6px;
+    height:6px;
+    border-radius: 50%;
+    background-color:#bbb;
+    margin: 0px 4px;
+}
+.pay-dot-current{
+    background-color: #fff;
+}
+
+
+function loadingPayPanel(){
+	var payPanel = '<div class="pay-mask">'+
+						'<div class="pay-panel">'+
+							'<span class="pay-img"></span>'+
+							'<span class="pay-text">微信支付</span>'+
+							'<span class="pay-loading">'+
+								'<span class="pay-dot pay-dot-current"></span>'+
+								'<span class="pay-dot"></span>'+
+								'<span class="pay-dot"></span>'+
+							'</span>'+
+						'</div>'+
+					'</div>';
+	$(payPanel).appendTo('body');
+	nextDot();
+}
+function closeLoadingPayPanel(){
+	$(".pay-mask").remove();
+	clearTimeout(dotTimer); 
+}
+var dotTimer = null;
+function nextDot(){
+	if($(".pay-dot").index($(".pay-dot-current")) == 0){
+		$(".pay-dot-current").removeClass('pay-dot-current');
+		$(".pay-dot").eq(1).addClass('pay-dot-current');
+	}
+	else if($(".pay-dot").index($(".pay-dot-current")) == 1){
+		$(".pay-dot-current").removeClass('pay-dot-current');
+		$(".pay-dot").eq(2).addClass('pay-dot-current');
+	}
+	else{
+		$(".pay-dot-current").removeClass('pay-dot-current');
+		$(".pay-dot").eq(0).addClass('pay-dot-current');
+	}
+	dotTimer = setTimeout('nextDot()',300);
+}
